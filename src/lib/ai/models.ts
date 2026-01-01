@@ -9,6 +9,20 @@ export interface Model {
 
 export const MODELS: Model[] = [
   {
+    id: "openai/gpt-5-nano",
+    name: "GPT-5 Nano",
+    provider: "OpenAI",
+    providerSlug: "openai",
+    description: "Fast and efficient",
+  },
+  {
+    id: "openai/gpt-5-mini",
+    name: "GPT-5 Mini",
+    provider: "OpenAI",
+    providerSlug: "openai",
+    description: "Fast and efficient",
+  },
+  {
     id: "openai/gpt-4o-mini",
     name: "GPT-4o Mini",
     provider: "OpenAI",
@@ -16,11 +30,11 @@ export const MODELS: Model[] = [
     description: "Fast and efficient",
   },
   {
-    id: "openai/gpt-4o",
-    name: "GPT-4o",
+    id: "openai/gpt-oss-120b",
+    name: "GPT-OSS 120B",
     provider: "OpenAI",
-    providerSlug: "openai",
-    description: "Balanced performance",
+    providerSlug: "baseten",
+    description: "Fast and efficient",
   },
   {
     id: "google/gemini-2.0-flash",
@@ -30,15 +44,15 @@ export const MODELS: Model[] = [
     description: "Fast multimodal model",
   },
   {
-    id: "deepseek/deepseek-chat",
-    name: "DeepSeek Chat",
+    id: "deepseek/deepseek-v3.2",
+    name: "DeepSeek V3.2",
     provider: "DeepSeek",
     providerSlug: "deepseek",
-    description: "Advanced reasoning",
-  },
+    description: "Fast and efficient",
+  }
 ];
 
-export const DEFAULT_MODEL_ID = "openai/gpt-4o-mini";
+export const DEFAULT_MODEL_ID = "openai/gpt-oss-120b";
 
 export function getModelById(id: string): Model | undefined {
   return MODELS.find((model) => model.id === id);
