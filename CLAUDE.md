@@ -77,7 +77,6 @@ src/
 │   ├── ai/
 │   │   ├── agents/            # Agent configurations
 │   │   │   ├── agents.shared.ts  # Shared metadata (client-safe)
-│   │   │   ├── coder.agent.ts    # Code-focused agent
 │   │   │   ├── default.agent.ts  # Default agent (all tools)
 │   │   │   ├── index.ts          # Registry + getActiveAgent()
 │   │   │   ├── portfolio.agent.ts # Portfolio agent
@@ -208,7 +207,6 @@ interface AgentConfig {
 
 **Available agents:**
 - `default` - Full assistant with all tools (form, chart, code, card) and suggestions
-- `coder` - Code-focused agent with only the code tool
 - `portfolio` - Interactive portfolio agent with renderPortfolio tool
 
 ### Portfolio System
@@ -245,7 +243,7 @@ renderPortfolio({
 Required in `.env.local`:
 ```
 AI_GATEWAY_API_KEY=your_key_here
-ACTIVE_AGENT=default  # Options: default, coder, portfolio
+ACTIVE_AGENT=default  # Options: default, portfolio
 ```
 
 ## Documentation & Context

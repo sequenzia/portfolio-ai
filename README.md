@@ -140,7 +140,6 @@ src/
 │   │   │   ├── index.ts          # Registry + getActiveAgent()
 │   │   │   ├── types.ts          # AgentConfig interface
 │   │   │   ├── default.agent.ts
-│   │   │   ├── coder.agent.ts
 │   │   │   └── portfolio.agent.ts
 │   │   ├── agents.client.ts   # Client-safe agent re-exports
 │   │   ├── models.ts          # Client-safe model definitions
@@ -163,7 +162,6 @@ Agents organize system prompts, available tools, and UI suggestions. One agent i
 | Agent | Description | Tools |
 |-------|-------------|-------|
 | `default` | Full assistant with interactive content | form, chart, code, card |
-| `coder` | Code-focused assistant | code |
 | `portfolio` | Interactive portfolio showcase | renderPortfolio |
 
 ### Agent Architecture
@@ -214,7 +212,7 @@ Portfolio sections: bio, experience, projects, education, skills, contact
 | Variable | Description | Required | Default |
 |----------|-------------|----------|---------|
 | `AI_GATEWAY_API_KEY` | Vercel AI Gateway API key | Yes | - |
-| `ACTIVE_AGENT` | Active agent ID (`default`, `coder`, `portfolio`) | No | `default` |
+| `ACTIVE_AGENT` | Active agent ID (`default`, `portfolio`) | No | `default` |
 
 ## Architecture
 
