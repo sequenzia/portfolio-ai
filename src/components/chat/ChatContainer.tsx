@@ -13,6 +13,7 @@ import {
 } from "@/components/ai-elements/conversation";
 import { Suggestions, Suggestion } from "@/components/ai-elements/suggestion";
 import { Loader } from "@/components/ai-elements/loader";
+import { getAgentMetadataById } from "@/lib/ai/agents.client";
 import { cn } from "@/lib/utils";
 import { fadeInUp } from "@/lib/motion";
 
@@ -21,7 +22,8 @@ interface ChatContainerProps {
 }
 
 export function ChatContainer({ className }: ChatContainerProps) {
-  const { messages, status, suggestions, sendMessage } = useChat();
+  const { messages, status, suggestions, sendMessage, agentId } = useChat();
+  const agentMetadata = getAgentMetadataById(agentId);
 
   const handleSuggestionClick = useCallback(
     (prompt: string) => {
@@ -74,7 +76,7 @@ export function ChatContainer({ className }: ChatContainerProps) {
             <div className="space-y-2 text-center">
               <h3 className="font-semibold text-xl">✨ Start a conversation</h3>
               <p className="text-muted-foreground">
-                Ask me anything — I can help with code, charts, forms, and more!
+                {agentMetadata?.greeting ?? "Ask me anything!"}
               </p>
             </div>
             {suggestions && suggestions.length > 0 && (

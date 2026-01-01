@@ -9,6 +9,7 @@ export interface AgentMetadata {
   id: string;
   name: string;
   description?: string;
+  greeting?: string;
   suggestions?: Array<{ label: string; prompt?: string }>;
 }
 
@@ -16,6 +17,7 @@ export const defaultAgentMeta: AgentMetadata = {
   id: "default",
   name: "Sequenzia",
   description: "Default AI Agent with interactive content generation",
+  greeting: "Ask me anything — I can help with code, charts, forms, and more!",
   suggestions: [
     {
       label: "Create a feedback form",
@@ -43,6 +45,7 @@ export const coderAgentMeta: AgentMetadata = {
   id: "coder",
   name: "Coding Agent",
   description: "Specialized Coding Agent",
+  greeting: "Ready to code! Ask me to write functions, classes, or debug your code.",
   suggestions: [
     {
       label: "React data fetching hook",
@@ -70,8 +73,8 @@ export const coderAgentMeta: AgentMetadata = {
 export const portfolioAgentMeta: AgentMetadata = {
   id: "portfolio",
   name: "Portfolio Agent",
-  description:
-    "Interactive Portfolio Agent",
+  description: "Interactive Portfolio Agent",
+  greeting: "Welcome! Explore my bio, projects, skills, and experience.",
   suggestions: [
     {
       label: "Bio",
