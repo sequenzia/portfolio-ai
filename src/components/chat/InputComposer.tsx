@@ -44,8 +44,8 @@ export function InputComposer() {
   const [modelSelectorOpen, setModelSelectorOpen] = useState(false);
 
   const handleSuggestionClick = useCallback(
-    (suggestion: string) => {
-      sendMessage(suggestion);
+    (prompt: string) => {
+      sendMessage(prompt);
     },
     [sendMessage]
   );
@@ -76,10 +76,12 @@ export function InputComposer() {
             <Suggestions>
               {suggestions.map((suggestion) => (
                 <Suggestion
-                  key={suggestion}
-                  suggestion={suggestion}
+                  key={suggestion.label}
+                  suggestion={suggestion.prompt ?? suggestion.label}
                   onClick={handleSuggestionClick}
-                />
+                >
+                  {suggestion.label}
+                </Suggestion>
               ))}
             </Suggestions>
           </div>

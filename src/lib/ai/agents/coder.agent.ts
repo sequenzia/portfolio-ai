@@ -25,9 +25,21 @@ Supported languages for syntax highlighting include: javascript, typescript, pyt
   },
   maxSteps: 1,
   suggestions: [
-    "Write a React hook for fetching data",
-    "Create a TypeScript utility function",
-    "Show me a Python class example",
-    "Generate an Express.js route handler",
+    {
+      label: "React data fetching hook",
+      prompt: "Write a React hook for fetching data with loading and error states, using TypeScript.",
+    },
+    {
+      label: "TypeScript utility function",
+      prompt: "Create a TypeScript utility function for deep cloning objects with proper type inference.",
+    },
+    {
+      label: "Python class example",
+      prompt: "Show me a Python class example with inheritance, properties, and type hints.",
+    },
+    {
+      label: "Express.js route handler",
+      prompt: "Generate an Express.js route handler with input validation and error handling.",
+    },
   ],
 };

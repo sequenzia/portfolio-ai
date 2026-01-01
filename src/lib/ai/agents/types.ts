@@ -20,5 +20,10 @@ export interface AgentConfig {
   description?: string;
 
   /** Optional suggestion prompts for quick actions */
-  suggestions?: string[];
+  suggestions?: Array<{
+    /** Short label displayed in the UI */
+    label: string;
+    /** Full prompt sent to the AI (defaults to label if not provided) */
+    prompt?: string;
+  }>;
 }

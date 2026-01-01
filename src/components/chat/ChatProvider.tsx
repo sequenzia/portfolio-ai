@@ -23,14 +23,14 @@ interface ChatContextValue {
   stop: () => void;
   modelId: string;
   setModelId: (modelId: string) => void;
-  suggestions?: string[];
+  suggestions?: Array<{ label: string; prompt?: string }>;
 }
 
 const ChatContext = createContext<ChatContextValue | undefined>(undefined);
 
 interface ChatProviderProps {
   children: React.ReactNode;
-  suggestions?: string[];
+  suggestions?: Array<{ label: string; prompt?: string }>;
 }
 
 export function ChatProvider({ children, suggestions }: ChatProviderProps) {

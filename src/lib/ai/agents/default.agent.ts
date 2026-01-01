@@ -27,9 +27,21 @@ Guidelines for tools:
   tools: chatTools,
   maxSteps: 1,
   suggestions: [
-    "Create a feedback form for my website",
-    "Show me a bar chart example",
-    "Generate a TypeScript function",
-    "Create a product card with image",
+    {
+      label: "Create a feedback form",
+      prompt: "Create a feedback form for my website with fields for name, email, rating, and comments.",
+    },
+    {
+      label: "Show me a chart",
+      prompt: "Show me a bar chart example with sample data for monthly sales.",
+    },
+    {
+      label: "Generate TypeScript code",
+      prompt: "Generate a TypeScript utility function that debounces function calls.",
+    },
+    {
+      label: "Create a product card",
+      prompt: "Create a product card with an image, title, description, price, and add to cart button.",
+    },
   ],
 };

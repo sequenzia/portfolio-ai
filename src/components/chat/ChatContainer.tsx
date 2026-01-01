@@ -24,8 +24,8 @@ export function ChatContainer({ className }: ChatContainerProps) {
   const { messages, status, suggestions, sendMessage } = useChat();
 
   const handleSuggestionClick = useCallback(
-    (suggestion: string) => {
-      sendMessage(suggestion);
+    (prompt: string) => {
+      sendMessage(prompt);
     },
     [sendMessage]
   );
@@ -83,10 +83,12 @@ export function ChatContainer({ className }: ChatContainerProps) {
                 <Suggestions>
                   {suggestions.map((suggestion) => (
                     <Suggestion
-                      key={suggestion}
-                      suggestion={suggestion}
+                      key={suggestion.label}
+                      suggestion={suggestion.prompt ?? suggestion.label}
                       onClick={handleSuggestionClick}
-                    />
+                    >
+                      {suggestion.label}
+                    </Suggestion>
                   ))}
                 </Suggestions>
               </div>
