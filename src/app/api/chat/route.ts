@@ -1,7 +1,6 @@
-import { streamText, convertToModelMessages } from "ai";
+import { streamText, convertToModelMessages, stepCountIs } from "ai";
 import { createModel } from "@/lib/ai/models.server";
-import { getSystemPrompt } from "@/lib/ai/prompts";
-import { chatTools } from "@/lib/ai/tools";
+import { getActiveAgent } from "@/lib/ai/agents";
 
 export const maxDuration = 60;
 
@@ -11,11 +10,15 @@ export async function POST(req: Request) {
   const model = createModel(modelId);
   const messages = await convertToModelMessages(uiMessages);
 
+  // Get the active agent configuration
+  const agent = getActiveAgent();
+
   const result = streamText({
     model,
-    system: getSystemPrompt(),
+    system: agent.instructions,
     messages,
-    tools: chatTools,
+    tools: agent.tools,
+    stopWhen: stepCountIs(agent.maxSteps ?? 1),
   });
 
   return result.toUIMessageStreamResponse({
