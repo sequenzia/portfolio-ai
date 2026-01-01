@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sun, Moon, Monitor, Sparkles } from "lucide-react";
+import { Sun, Moon, Monitor } from "lucide-react";
 import type { Theme } from "@/types";
 
 export function Header() {
@@ -23,16 +23,18 @@ export function Header() {
   const CurrentIcon = theme === "light" ? Sun : theme === "dark" ? Moon : Monitor;
 
   return (
-    <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-14 items-center justify-between px-4 max-w-3xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto">
         <div className="flex items-center gap-2">
-          <Sparkles className="size-5 text-primary" />
-          <h1 className="font-semibold text-lg">Sequenzia AI</h1>
+          <span className="text-xl">✨</span>
+          <h1 className="font-semibold text-lg bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
+            Sequenzia AI
+          </h1>
         </div>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="hover:bg-accent/20 hover:text-accent">
               <CurrentIcon className="size-5" />
               <span className="sr-only">Toggle theme</span>
             </Button>

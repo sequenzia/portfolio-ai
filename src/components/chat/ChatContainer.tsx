@@ -68,18 +68,17 @@ export function ChatContainer({ className }: ChatContainerProps) {
       <ConversationContent className="max-w-3xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto px-4 py-6">
         {visibleMessages.length === 0 ? (
           <ConversationEmptyState>
-            <div className="text-muted-foreground">
-              <MessageSquare className="size-12" />
+            <div className="text-accent">
+              <MessageSquare className="size-16" />
             </div>
-            <div className="space-y-1">
-              <h3 className="font-medium text-sm">Start a conversation</h3>
-              <p className="text-muted-foreground text-sm">
-                Ask me anything. I can also create interactive forms, charts,
-                code snippets, and more.
+            <div className="space-y-2 text-center">
+              <h3 className="font-semibold text-xl">✨ Start a conversation</h3>
+              <p className="text-muted-foreground">
+                Ask me anything — I can help with code, charts, forms, and more!
               </p>
             </div>
             {suggestions && suggestions.length > 0 && (
-              <div className="mt-6 w-full max-w-xl px-4">
+              <div className="mt-8 w-full max-w-xl px-4">
                 <Suggestions>
                   {suggestions.map((suggestion) => (
                     <Suggestion
@@ -112,10 +111,10 @@ export function ChatContainer({ className }: ChatContainerProps) {
               animate="visible"
               exit="hidden"
               variants={fadeInUp}
-              className="flex items-center gap-2 text-muted-foreground text-sm"
+              className="flex items-center gap-2 text-accent text-sm"
             >
-              <Loader size={16} />
-              <span>Thinking...</span>
+              <Loader size={16} className="text-accent" />
+              <span>✨ Thinking...</span>
             </motion.div>
           )}
         </AnimatePresence>

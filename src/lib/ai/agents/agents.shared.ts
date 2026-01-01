@@ -75,7 +75,7 @@ export const portfolioAgentMeta: AgentMetadata = {
   suggestions: [
     {
       label: "Bio",
-      prompt: "Tell me about yourself",
+      prompt: "Show me your bio",
     },
     {
       label: "Experience",
