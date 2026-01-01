@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash"
+      "Bash",
+      "mcp__context7",
+      "mcp__shadcn",
+      "mcp__chrome-devtools",
+      "mcp__ai-elements"
     ]
   }
 }
