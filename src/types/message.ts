@@ -37,7 +37,7 @@ export type FormField = z.infer<typeof FormFieldSchema>;
 
 // Form content data
 export const FormContentDataSchema = z.object({
-  type: z.literal("form"),
+  type: z.literal("form").describe('Must always be exactly "form"'),
   title: z.string(),
   description: z.string().optional(),
   fields: z.array(FormFieldSchema),
@@ -56,7 +56,7 @@ export type ChartDataPoint = z.infer<typeof ChartDataPointSchema>;
 
 // Chart content data
 export const ChartContentDataSchema = z.object({
-  type: z.literal("chart"),
+  type: z.literal("chart").describe('Must always be exactly "chart"'),
   chartType: z.enum(["line", "bar", "pie", "area"]),
   title: z.string(),
   description: z.string().optional(),
@@ -67,7 +67,7 @@ export type ChartContentData = z.infer<typeof ChartContentDataSchema>;
 
 // Code content data
 export const CodeContentDataSchema = z.object({
-  type: z.literal("code"),
+  type: z.literal("code").describe('Must always be exactly "code"'),
   language: z.string(),
   filename: z.string().optional(),
   code: z.string(),

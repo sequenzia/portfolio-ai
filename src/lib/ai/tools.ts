@@ -1,7 +1,6 @@
 import { tool } from "ai";
-import { z } from "zod";
 import {
-  FormFieldSchema,
+  FormContentDataSchema,
   ChartContentDataSchema,
   CodeContentDataSchema,
   CardContentDataSchema,
@@ -11,13 +10,7 @@ import {
 export const generateForm = tool({
   description:
     "Generate an interactive form for collecting user input. Use for surveys, registrations, feedback forms, or any structured data collection.",
-  inputSchema: z.object({
-    type: z.literal("form").describe('Must always be exactly "form"'),
-    title: z.string().describe("The form title"),
-    description: z.string().optional().describe("Optional description"),
-    fields: z.array(FormFieldSchema).describe("Array of form fields"),
-    submitLabel: z.string().optional().describe("Custom submit button label"),
-  }),
+  inputSchema: FormContentDataSchema,
   strict: true,
   execute: async (params) => params,
 });
