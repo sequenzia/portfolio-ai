@@ -8,11 +8,25 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sun, Moon, Monitor } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Sun, Moon, Monitor, SquarePen } from "lucide-react";
+import { useChat } from "./chat/ChatProvider";
 import type { Theme } from "@/types";
 
 export function Header() {
   const { theme, setTheme } = useTheme();
+  const { clearMessages, messages } = useChat();
+  const hasMessages = messages.length > 0;
 
   const themeOptions: { value: Theme; label: string; icon: typeof Sun }[] = [
     { value: "light", label: "Light", icon: Sun },
@@ -32,26 +46,67 @@ export function Header() {
           </h1>
         </div>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="hover:bg-accent/20 hover:text-accent">
-              <CurrentIcon className="size-5" />
-              <span className="sr-only">Toggle theme</span>
+        <div className="flex items-center gap-1">
+          {hasMessages ? (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hover:bg-accent/20 hover:text-accent"
+                >
+                  <SquarePen className="size-5" />
+                  <span className="sr-only">New chat</span>
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Start new chat?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will clear the current conversation. This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={clearMessages}>
+                    New chat
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          ) : (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={clearMessages}
+              className="hover:bg-accent/20 hover:text-accent"
+            >
+              <SquarePen className="size-5" />
+              <span className="sr-only">New chat</span>
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {themeOptions.map(({ value, label, icon: Icon }) => (
-              <DropdownMenuItem
-                key={value}
-                onClick={() => setTheme(value)}
-                className="gap-2"
-              >
-                <Icon className="size-4" />
-                {label}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+          )}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="hover:bg-accent/20 hover:text-accent">
+                <CurrentIcon className="size-5" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {themeOptions.map(({ value, label, icon: Icon }) => (
+                <DropdownMenuItem
+                  key={value}
+                  onClick={() => setTheme(value)}
+                  className="gap-2"
+                >
+                  <Icon className="size-4" />
+                  {label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </header>
   );
