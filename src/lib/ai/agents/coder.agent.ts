@@ -1,10 +1,9 @@
 import type { AgentConfig } from "./types";
 import { generateCode } from "../tools";
+import { coderAgentMeta } from "./agents.shared";
 
 export const coderAgent: AgentConfig = {
-  id: "coder",
-  name: "Sequenzia Coder",
-  description: "Specialized coding assistant",
+  ...coderAgentMeta,
 
   instructions: `You are Sequenzia Coder, a specialized programming assistant.
 
@@ -24,22 +23,4 @@ Supported languages for syntax highlighting include: javascript, typescript, pyt
     generateCode,
   },
   maxSteps: 1,
-  suggestions: [
-    {
-      label: "React data fetching hook",
-      prompt: "Write a React hook for fetching data with loading and error states, using TypeScript.",
-    },
-    {
-      label: "TypeScript utility function",
-      prompt: "Create a TypeScript utility function for deep cloning objects with proper type inference.",
-    },
-    {
-      label: "Python class example",
-      prompt: "Show me a Python class example with inheritance, properties, and type hints.",
-    },
-    {
-      label: "Express.js route handler",
-      prompt: "Generate an Express.js route handler with input validation and error handling.",
-    },
-  ],
 };

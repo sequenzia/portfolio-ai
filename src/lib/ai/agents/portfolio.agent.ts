@@ -1,6 +1,7 @@
 import type { AgentConfig } from "./types";
 import { renderPortfolio } from "../tools";
 import { portfolioContent } from "@/lib/portfolio";
+import { portfolioAgentMeta } from "./agents.shared";
 
 // Generate dynamic system prompt with embedded portfolio data
 function generatePortfolioInstructions(): string {
@@ -100,10 +101,7 @@ Do NOT use renderPortfolio for:
 }
 
 export const portfolioAgent: AgentConfig = {
-  id: "portfolio",
-  name: "Portfolio Assistant",
-  description:
-    "Interactive portfolio assistant for exploring professional background",
+  ...portfolioAgentMeta,
 
   instructions: generatePortfolioInstructions(),
 
@@ -112,23 +110,4 @@ export const portfolioAgent: AgentConfig = {
   },
 
   maxSteps: 1,
-
-  suggestions: [
-    {
-      label: "Tell me about yourself",
-      prompt: "Tell me about yourself and show me your bio",
-    },
-    {
-      label: "Show your experience",
-      prompt: "What's your professional experience? Show me your work history.",
-    },
-    {
-      label: "View projects",
-      prompt: "Show me your projects. What have you built?",
-    },
-    {
-      label: "What are your skills?",
-      prompt: "What are your technical skills? Show me your expertise.",
-    },
-  ],
 };

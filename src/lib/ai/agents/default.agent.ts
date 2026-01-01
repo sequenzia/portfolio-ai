@@ -1,10 +1,9 @@
 import type { AgentConfig } from "./types";
 import { chatTools } from "../tools";
+import { defaultAgentMeta } from "./agents.shared";
 
 export const defaultAgent: AgentConfig = {
-  id: "default",
-  name: "Sequenzia",
-  description: "Default AI assistant with interactive content generation",
+  ...defaultAgentMeta,
 
   instructions: `You are Sequenzia, a helpful AI assistant with the ability to create interactive content.
 
@@ -26,22 +25,4 @@ Guidelines for tools:
 
   tools: chatTools,
   maxSteps: 1,
-  suggestions: [
-    {
-      label: "Create a feedback form",
-      prompt: "Create a feedback form for my website with fields for name, email, rating, and comments.",
-    },
-    {
-      label: "Show me a chart",
-      prompt: "Show me a bar chart example with sample data for monthly sales.",
-    },
-    {
-      label: "Generate TypeScript code",
-      prompt: "Generate a TypeScript utility function that debounces function calls.",
-    },
-    {
-      label: "Create a product card",
-      prompt: "Create a product card with an image, title, description, price, and add to cart button.",
-    },
-  ],
 };

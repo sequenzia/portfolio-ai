@@ -6,9 +6,14 @@ import { getActiveAgent } from "@/lib/ai/agents";
 
 export default function Home() {
   const agent = getActiveAgent();
+  const agentSelectorEnabled = process.env.AGENT_SELECTOR_ON === "on";
 
   return (
-    <ChatProvider suggestions={agent.suggestions}>
+    <ChatProvider
+      suggestions={agent.suggestions}
+      initialAgentId={agent.id}
+      agentSelectorEnabled={agentSelectorEnabled}
+    >
       <div className="flex flex-col h-screen bg-background">
         <Header />
         <ChatContainer className="flex-1 overflow-hidden" />

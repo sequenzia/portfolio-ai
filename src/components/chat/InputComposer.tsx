@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, BotIcon } from "lucide-react";
 import { useChat } from "./ChatProvider";
 import { Suggestions, Suggestion } from "@/components/ai-elements/suggestion";
 import { MODELS, getChefs, getModelById } from "@/lib/ai/models";
+import { AGENTS, getAgentMetadataById } from "@/lib/ai/agents.client";
 import {
   PromptInput,
   PromptInputBody,
@@ -27,6 +28,17 @@ import {
   ModelSelectorLogoGroup,
   ModelSelectorName,
 } from "@/components/ai-elements/model-selector";
+import {
+  AgentSelector,
+  AgentSelectorTrigger,
+  AgentSelectorContent,
+  AgentSelectorInput,
+  AgentSelectorList,
+  AgentSelectorEmpty,
+  AgentSelectorItem,
+  AgentSelectorName,
+  AgentSelectorDescription,
+} from "@/components/ai-elements/agent-selector";
 import { Button } from "@/components/ui/button";
 
 export function InputComposer() {
@@ -35,6 +47,9 @@ export function InputComposer() {
     status,
     modelId,
     setModelId,
+    agentId,
+    setAgentId,
+    agentSelectorEnabled,
     stop,
     isLoading,
     messages,
@@ -42,6 +57,7 @@ export function InputComposer() {
   } = useChat();
   const [input, setInput] = useState("");
   const [modelSelectorOpen, setModelSelectorOpen] = useState(false);
+  const [agentSelectorOpen, setAgentSelectorOpen] = useState(false);
 
   const handleSuggestionClick = useCallback(
     (prompt: string) => {
@@ -54,6 +70,7 @@ export function InputComposer() {
     suggestions && suggestions.length > 0 && messages.length > 0;
 
   const selectedModelData = getModelById(modelId);
+  const selectedAgentData = getAgentMetadataById(agentId);
   const chefs = getChefs();
 
   const handleSubmit = (message: PromptInputMessage) => {
@@ -97,6 +114,54 @@ export function InputComposer() {
           </PromptInputBody>
           <PromptInputFooter>
             <PromptInputTools>
+              {agentSelectorEnabled && (
+                <AgentSelector
+                  open={agentSelectorOpen}
+                  onOpenChange={setAgentSelectorOpen}
+                >
+                  <AgentSelectorTrigger asChild>
+                    <Button
+                      className="h-8 gap-2 justify-start"
+                      variant="outline"
+                      size="sm"
+                    >
+                      <BotIcon className="size-4" />
+                      <AgentSelectorName className="max-w-[120px]">
+                        {selectedAgentData?.name ?? "Select agent"}
+                      </AgentSelectorName>
+                    </Button>
+                  </AgentSelectorTrigger>
+                  <AgentSelectorContent>
+                    <AgentSelectorInput placeholder="Search agents..." />
+                    <AgentSelectorList>
+                      <AgentSelectorEmpty>No agents found.</AgentSelectorEmpty>
+                      {AGENTS.map((agent) => (
+                        <AgentSelectorItem
+                          key={agent.id}
+                          value={agent.id}
+                          onSelect={() => {
+                            setAgentId(agent.id);
+                            setAgentSelectorOpen(false);
+                          }}
+                          className="flex flex-col items-start gap-1 py-2"
+                        >
+                          <div className="flex items-center gap-2 w-full">
+                            <AgentSelectorName>{agent.name}</AgentSelectorName>
+                            {agentId === agent.id && (
+                              <CheckIcon className="size-4 shrink-0 ml-auto" />
+                            )}
+                          </div>
+                          {agent.description && (
+                            <AgentSelectorDescription>
+                              {agent.description}
+                            </AgentSelectorDescription>
+                          )}
+                        </AgentSelectorItem>
+                      ))}
+                    </AgentSelectorList>
+                  </AgentSelectorContent>
+                </AgentSelector>
+              )}
               <ModelSelector
                 open={modelSelectorOpen}
                 onOpenChange={setModelSelectorOpen}
