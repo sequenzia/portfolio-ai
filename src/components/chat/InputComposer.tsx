@@ -85,10 +85,10 @@ export function InputComposer() {
   };
 
   return (
-    <div className="border-t bg-background p-4">
-      <div className="max-w-3xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto">
+    <div className="bg-gradient-to-t from-background via-background to-transparent p-4 pb-6">
+      <div className="max-w-2xl mx-auto">
         {showSuggestions && (
-          <div className="mb-3">
+          <div className="mb-4">
             <Suggestions>
               {suggestions.map((suggestion) => (
                 <Suggestion
@@ -102,130 +102,135 @@ export function InputComposer() {
             </Suggestions>
           </div>
         )}
-        <PromptInput onSubmit={handleSubmit}>
-          <PromptInputBody>
-            <PromptInputTextarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Send a message..."
-              className="min-h-[60px] resize-none"
-            />
-          </PromptInputBody>
-          <PromptInputFooter>
-            <PromptInputTools>
-              {agentSelectorEnabled && (
-                <AgentSelector
-                  open={agentSelectorOpen}
-                  onOpenChange={setAgentSelectorOpen}
-                >
-                  <AgentSelectorTrigger asChild>
-                    <Button
-                      className="h-8 gap-2 justify-start"
-                      variant="outline"
-                      size="sm"
+        {/* Gradient border wrapper */}
+        <div className="relative rounded-2xl p-[1px] bg-gradient-to-r from-gradient-from via-accent to-gradient-to shadow-lg shadow-accent/10">
+          <div className="rounded-2xl bg-card/95 backdrop-blur-sm">
+            <PromptInput onSubmit={handleSubmit} className="rounded-2xl overflow-hidden">
+              <PromptInputBody>
+                <PromptInputTextarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Send a message..."
+                  className="min-h-[60px] resize-none bg-transparent"
+                />
+              </PromptInputBody>
+              <PromptInputFooter>
+                <PromptInputTools>
+                  {agentSelectorEnabled && (
+                    <AgentSelector
+                      open={agentSelectorOpen}
+                      onOpenChange={setAgentSelectorOpen}
                     >
-                      <BotIcon className="size-4" />
-                      <AgentSelectorName className="max-w-[120px]">
-                        {selectedAgentData?.name ?? "Select agent"}
-                      </AgentSelectorName>
-                    </Button>
-                  </AgentSelectorTrigger>
-                  <AgentSelectorContent>
-                    <AgentSelectorInput placeholder="Search agents..." />
-                    <AgentSelectorList>
-                      <AgentSelectorEmpty>No agents found.</AgentSelectorEmpty>
-                      {AGENTS.map((agent) => (
-                        <AgentSelectorItem
-                          key={agent.id}
-                          value={agent.id}
-                          onSelect={() => {
-                            setAgentId(agent.id);
-                            setAgentSelectorOpen(false);
-                          }}
-                          className="flex flex-col items-start gap-1 py-2"
+                      <AgentSelectorTrigger asChild>
+                        <Button
+                          className="h-8 gap-2 justify-start"
+                          variant="outline"
+                          size="sm"
                         >
-                          <div className="flex items-center gap-2 w-full">
-                            <AgentSelectorName>{agent.name}</AgentSelectorName>
-                            {agentId === agent.id && (
-                              <CheckIcon className="size-4 shrink-0 ml-auto" />
-                            )}
-                          </div>
-                          {agent.description && (
-                            <AgentSelectorDescription>
-                              {agent.description}
-                            </AgentSelectorDescription>
-                          )}
-                        </AgentSelectorItem>
-                      ))}
-                    </AgentSelectorList>
-                  </AgentSelectorContent>
-                </AgentSelector>
-              )}
-              <ModelSelector
-                open={modelSelectorOpen}
-                onOpenChange={setModelSelectorOpen}
-              >
-                <ModelSelectorTrigger asChild>
-                  <Button
-                    className="h-8 gap-2 justify-start"
-                    variant="outline"
-                    size="sm"
-                  >
-                    {selectedModelData?.chefSlug && (
-                      <ModelSelectorLogo provider={selectedModelData.chefSlug} />
-                    )}
-                    <ModelSelectorName className="max-w-[140px]">
-                      {selectedModelData?.name ?? "Select model"}
-                    </ModelSelectorName>
-                  </Button>
-                </ModelSelectorTrigger>
-                <ModelSelectorContent>
-                  <ModelSelectorInput placeholder="Search models..." />
-                  <ModelSelectorList>
-                    <ModelSelectorEmpty>No models found.</ModelSelectorEmpty>
-                    {chefs.map((chef) => (
-                      <ModelSelectorGroup key={chef} heading={chef}>
-                        {MODELS.filter((model) => model.chef === chef).map(
-                          (model) => (
-                            <ModelSelectorItem
-                              key={model.id}
-                              value={model.id}
+                          <BotIcon className="size-4" />
+                          <AgentSelectorName className="max-w-[120px]">
+                            {selectedAgentData?.name ?? "Select agent"}
+                          </AgentSelectorName>
+                        </Button>
+                      </AgentSelectorTrigger>
+                      <AgentSelectorContent>
+                        <AgentSelectorInput placeholder="Search agents..." />
+                        <AgentSelectorList>
+                          <AgentSelectorEmpty>No agents found.</AgentSelectorEmpty>
+                          {AGENTS.map((agent) => (
+                            <AgentSelectorItem
+                              key={agent.id}
+                              value={agent.id}
                               onSelect={() => {
-                                setModelId(model.id);
-                                setModelSelectorOpen(false);
+                                setAgentId(agent.id);
+                                setAgentSelectorOpen(false);
                               }}
-                              className="flex items-center gap-2"
+                              className="flex flex-col items-start gap-1 py-2"
                             >
-                              <ModelSelectorLogo provider={model.chefSlug} />
-                              <ModelSelectorName>{model.name}</ModelSelectorName>
-                              <ModelSelectorLogoGroup className="ml-auto">
-                                {model.providers.map((provider) => (
-                                  <ModelSelectorLogo
-                                    key={provider}
-                                    provider={provider}
-                                  />
-                                ))}
-                              </ModelSelectorLogoGroup>
-                              {modelId === model.id ? (
-                                <CheckIcon className="size-4 shrink-0" />
-                              ) : (
-                                <div className="size-4 shrink-0" />
+                              <div className="flex items-center gap-2 w-full">
+                                <AgentSelectorName>{agent.name}</AgentSelectorName>
+                                {agentId === agent.id && (
+                                  <CheckIcon className="size-4 shrink-0 ml-auto" />
+                                )}
+                              </div>
+                              {agent.description && (
+                                <AgentSelectorDescription>
+                                  {agent.description}
+                                </AgentSelectorDescription>
                               )}
-                            </ModelSelectorItem>
-                          )
+                            </AgentSelectorItem>
+                          ))}
+                        </AgentSelectorList>
+                      </AgentSelectorContent>
+                    </AgentSelector>
+                  )}
+                  <ModelSelector
+                    open={modelSelectorOpen}
+                    onOpenChange={setModelSelectorOpen}
+                  >
+                    <ModelSelectorTrigger asChild>
+                      <Button
+                        className="h-8 gap-2 justify-start"
+                        variant="outline"
+                        size="sm"
+                      >
+                        {selectedModelData?.chefSlug && (
+                          <ModelSelectorLogo provider={selectedModelData.chefSlug} />
                         )}
-                      </ModelSelectorGroup>
-                    ))}
-                  </ModelSelectorList>
-                </ModelSelectorContent>
-              </ModelSelector>
-            </PromptInputTools>
-            <PromptInputSubmit
-              status={status}
-              disabled={!input.trim() && !isLoading}
-            />
-          </PromptInputFooter>
-        </PromptInput>
+                        <ModelSelectorName className="max-w-[140px]">
+                          {selectedModelData?.name ?? "Select model"}
+                        </ModelSelectorName>
+                      </Button>
+                    </ModelSelectorTrigger>
+                    <ModelSelectorContent>
+                      <ModelSelectorInput placeholder="Search models..." />
+                      <ModelSelectorList>
+                        <ModelSelectorEmpty>No models found.</ModelSelectorEmpty>
+                        {chefs.map((chef) => (
+                          <ModelSelectorGroup key={chef} heading={chef}>
+                            {MODELS.filter((model) => model.chef === chef).map(
+                              (model) => (
+                                <ModelSelectorItem
+                                  key={model.id}
+                                  value={model.id}
+                                  onSelect={() => {
+                                    setModelId(model.id);
+                                    setModelSelectorOpen(false);
+                                  }}
+                                  className="flex items-center gap-2"
+                                >
+                                  <ModelSelectorLogo provider={model.chefSlug} />
+                                  <ModelSelectorName>{model.name}</ModelSelectorName>
+                                  <ModelSelectorLogoGroup className="ml-auto">
+                                    {model.providers.map((provider) => (
+                                      <ModelSelectorLogo
+                                        key={provider}
+                                        provider={provider}
+                                      />
+                                    ))}
+                                  </ModelSelectorLogoGroup>
+                                  {modelId === model.id ? (
+                                    <CheckIcon className="size-4 shrink-0" />
+                                  ) : (
+                                    <div className="size-4 shrink-0" />
+                                  )}
+                                </ModelSelectorItem>
+                              )
+                            )}
+                          </ModelSelectorGroup>
+                        ))}
+                      </ModelSelectorList>
+                    </ModelSelectorContent>
+                  </ModelSelector>
+                </PromptInputTools>
+                <PromptInputSubmit
+                  status={status}
+                  disabled={!input.trim() && !isLoading}
+                />
+              </PromptInputFooter>
+            </PromptInput>
+          </div>
+        </div>
       </div>
     </div>
   );
