@@ -24,14 +24,14 @@ export function ChatLayout() {
     });
   }, [messages]);
 
+  if (!hasMessages) {
+    return <EmptyState />;
+  }
+
   return (
     <>
-      {hasMessages ? (
-        <ChatContainer className="flex-1 overflow-hidden" />
-      ) : (
-        <EmptyState />
-      )}
-      <InputComposer compact={!hasMessages} hideSuggestions={!hasMessages} />
+      <ChatContainer className="flex-1 overflow-hidden" />
+      <InputComposer />
     </>
   );
 }
