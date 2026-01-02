@@ -18,12 +18,12 @@ import {
   GlobeIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import {
-  PromptInputHoverCard,
-  PromptInputHoverCardTrigger,
-  PromptInputHoverCardContent,
-} from "@/components/ai-elements/prompt-input";
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 export type SuggestionsProps = ComponentProps<"div">;
 
@@ -136,13 +136,8 @@ export function SuggestionsHoverCard({
   if (!suggestions?.length) return null;
 
   return (
-    <PromptInputHoverCard
-      open={open}
-      onOpenChange={setOpen}
-      openDelay={200}
-      closeDelay={100}
-    >
-      <PromptInputHoverCardTrigger asChild>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
         <Button
           variant="ghost"
           size="icon"
@@ -152,8 +147,8 @@ export function SuggestionsHoverCard({
           <LightbulbIcon className="size-5" />
           <span className="sr-only">Suggestions</span>
         </Button>
-      </PromptInputHoverCardTrigger>
-      <PromptInputHoverCardContent
+      </PopoverTrigger>
+      <PopoverContent
         side="top"
         align="center"
         className="w-auto max-w-md p-3"
@@ -169,7 +164,7 @@ export function SuggestionsHoverCard({
             </Suggestion>
           ))}
         </div>
-      </PromptInputHoverCardContent>
-    </PromptInputHoverCard>
+      </PopoverContent>
+    </Popover>
   );
 }
