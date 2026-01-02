@@ -12,7 +12,7 @@ export default function Icon() {
       <svg
         width="32"
         height="32"
-        viewBox="0 0 24 24"
+        viewBox="3 1 18 18"
         fill="none"
         style={{ background: 'transparent' }}
       >
