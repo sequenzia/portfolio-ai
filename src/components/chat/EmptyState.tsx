@@ -1,7 +1,6 @@
 'use client';
 
 import { useChat } from './ChatProvider';
-import { InputComposer } from './InputComposer';
 import { Suggestions, Suggestion } from '@/components/ai-elements/suggestion';
 import { Sparkles } from '@/components/ai-elements/sparkles';
 import { getAgentMetadataById } from '@/lib/ai/agents.client';
@@ -11,8 +10,8 @@ export function EmptyState() {
   const agentMetadata = getAgentMetadataById(agentId);
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-6 pb-32">
-      <div className="w-full max-w-3xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl space-y-4">
+    <div className="flex-1 flex flex-col items-center justify-center p-6">
+      <div className="w-full max-w-3xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl">
         {/* Empty state content */}
         <div className="flex flex-col items-center gap-3 text-center">
           <Sparkles size={96} />
@@ -35,9 +34,6 @@ export function EmptyState() {
             </Suggestions>
           )}
         </div>
-
-        {/* Input composer */}
-        <InputComposer hideSuggestions compact />
       </div>
     </div>
   );
