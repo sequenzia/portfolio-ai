@@ -43,9 +43,10 @@ import { Button } from '@/components/ui/button';
 
 interface InputComposerProps {
   hideAgentSelector?: boolean;
+  hideSuggestions?: boolean;
 }
 
-export function InputComposer({ hideAgentSelector }: InputComposerProps = {}) {
+export function InputComposer({ hideAgentSelector, hideSuggestions }: InputComposerProps = {}) {
   const {
     sendMessage,
     status,
@@ -194,10 +195,12 @@ export function InputComposer({ hideAgentSelector }: InputComposerProps = {}) {
                   </ModelSelector>
                 </PromptInputTools>
                 <div className="flex items-center gap-1">
-                  <SuggestionsHoverCard
-                    suggestions={suggestions ?? []}
-                    onSuggestionClick={handleSuggestionClick}
-                  />
+                  {!hideSuggestions && (
+                    <SuggestionsHoverCard
+                      suggestions={suggestions ?? []}
+                      onSuggestionClick={handleSuggestionClick}
+                    />
+                  )}
                   <PromptInputSubmit status={status} disabled={!input.trim() && !isLoading} />
                 </div>
               </PromptInputFooter>

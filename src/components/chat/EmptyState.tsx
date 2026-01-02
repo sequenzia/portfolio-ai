@@ -3,11 +3,12 @@
 import { MessageSquare, Bot as BotIcon } from 'lucide-react';
 import { useChat } from './ChatProvider';
 import { InputComposer } from './InputComposer';
+import { Suggestions, Suggestion } from '@/components/ai-elements/suggestion';
 import { Sparkles } from '@/components/ai-elements/sparkles';
 import { getAgentMetadataById } from '@/lib/ai/agents.client';
 
 export function EmptyState() {
-  const { agentId, agentSelectorEnabled, setAgentSelectorOpen } = useChat();
+  const { agentId, agentSelectorEnabled, setAgentSelectorOpen, suggestions, sendMessage } = useChat();
   const agentMetadata = getAgentMetadataById(agentId);
 
   return (
@@ -39,10 +40,25 @@ export function EmptyState() {
               </span>
             </button>
           )}
+
+          {/* Suggestion pills */}
+          {suggestions && suggestions.length > 0 && (
+            <Suggestions className="mt-2">
+              {suggestions.map((s) => (
+                <Suggestion
+                  key={s.label}
+                  suggestion={s.prompt ?? s.label}
+                  onClick={sendMessage}
+                >
+                  {s.label}
+                </Suggestion>
+              ))}
+            </Suggestions>
+          )}
         </div>
 
         {/* Input composer */}
-        <InputComposer hideAgentSelector />
+        <InputComposer hideAgentSelector hideSuggestions />
       </div>
     </div>
   );
