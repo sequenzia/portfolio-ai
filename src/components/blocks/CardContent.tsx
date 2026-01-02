@@ -25,19 +25,19 @@ export function CardContent({ data }: CardContentProps) {
   return (
     <Card className="overflow-hidden">
       {data.media && (
-        <div className="relative w-full">
+        <div className="relative w-full h-48 flex-shrink-0 overflow-hidden bg-muted">
           {data.media.type === "image" ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={data.media.url}
               alt={data.media.alt || data.title}
-              className="w-full h-48 object-cover"
+              className="w-full h-full object-contain"
             />
           ) : (
             <video
               src={data.media.url}
               controls
-              className="w-full h-48 object-cover"
+              className="w-full h-full object-contain"
             >
               <track kind="captions" />
             </video>
