@@ -243,6 +243,7 @@ renderPortfolio({
 Required in `.env.local`:
 ```
 AI_GATEWAY_API_KEY=your_key_here
+TAVILY_API_KEY=your_tavily_key_here  # For web search (https://tavily.com)
 ACTIVE_AGENT=default  # Options: default, portfolio
 ```
 

@@ -17,7 +17,8 @@ export const defaultAgentMeta: AgentMetadata = {
   id: "default",
   name: "Sequenzia",
   description: "Default AI Agent with interactive content generation",
-  greeting: "I can create forms, charts, code, and more. What would you like to build?",
+  greeting:
+    "I can create forms, charts, code, search the web, and more. What would you like to do?",
   suggestions: [
     {
       label: "Create a feedback form",
@@ -29,14 +30,13 @@ export const defaultAgentMeta: AgentMetadata = {
       prompt: "Show me a bar chart example with sample data for monthly sales.",
     },
     {
+      label: "Search the web",
+      prompt: "Search for the latest news about artificial intelligence.",
+    },
+    {
       label: "Generate TypeScript code",
       prompt:
         "Generate a TypeScript utility function that debounces function calls.",
-    },
-    {
-      label: "Create a product card",
-      prompt:
-        "Create a product card with an image, title, description, price, and add to cart button.",
     },
   ],
 };
