@@ -54,7 +54,6 @@ export function InputComposer() {
     setAgentSelectorOpen,
     stop,
     isLoading,
-    messages,
     suggestions,
   } = useChat();
   const [input, setInput] = useState("");
@@ -67,8 +66,7 @@ export function InputComposer() {
     [sendMessage]
   );
 
-  const showSuggestions =
-    suggestions && suggestions.length > 0 && messages.length > 0;
+  const showSuggestions = suggestions && suggestions.length > 0;
 
   const selectedModelData = getModelById(modelId);
   const selectedAgentData = getAgentMetadataById(agentId);

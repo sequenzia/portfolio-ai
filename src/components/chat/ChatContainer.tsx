@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useCallback } from "react";
+import { useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { MessageSquare, Bot as BotIcon } from "lucide-react";
 import { useChat } from "./ChatProvider";
@@ -11,7 +11,6 @@ import {
   ConversationEmptyState,
   ConversationScrollButton,
 } from "@/components/ai-elements/conversation";
-import { Suggestions, Suggestion } from "@/components/ai-elements/suggestion";
 import { Loader } from "@/components/ai-elements/loader";
 import { Sparkles } from "@/components/ai-elements/sparkles";
 import { getAgentMetadataById } from "@/lib/ai/agents.client";
@@ -23,15 +22,8 @@ interface ChatContainerProps {
 }
 
 export function ChatContainer({ className }: ChatContainerProps) {
-  const { messages, status, suggestions, sendMessage, agentId, agentSelectorEnabled, setAgentSelectorOpen } = useChat();
+  const { messages, status, agentId, agentSelectorEnabled, setAgentSelectorOpen } = useChat();
   const agentMetadata = getAgentMetadataById(agentId);
-
-  const handleSuggestionClick = useCallback(
-    (prompt: string) => {
-      sendMessage(prompt);
-    },
-    [sendMessage]
-  );
 
   const messageHasContent = (message: (typeof messages)[number]) => {
     return message.parts?.some((part) => {
@@ -93,24 +85,6 @@ export function ChatContainer({ className }: ChatContainerProps) {
                   Chatting with <span className="font-medium text-foreground">{agentMetadata.name}</span>
                 </span>
               </button>
-            )}
-            {suggestions && suggestions.length > 0 && (
-              <div className="mt-8 w-full max-w-xl px-4">
-                <p className="text-muted-foreground/60 text-sm text-center mb-3">
-                  Quick starts — or ask me anything
-                </p>
-                <Suggestions>
-                  {suggestions.map((suggestion) => (
-                    <Suggestion
-                      key={suggestion.label}
-                      suggestion={suggestion.prompt ?? suggestion.label}
-                      onClick={handleSuggestionClick}
-                    >
-                      {suggestion.label}
-                    </Suggestion>
-                  ))}
-                </Suggestions>
-              </div>
             )}
           </ConversationEmptyState>
         ) : (
