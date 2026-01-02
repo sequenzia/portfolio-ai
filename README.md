@@ -79,7 +79,7 @@ cp .env.example .env.local
 
 ```
 AI_GATEWAY_API_KEY=your_key_here
-ACTIVE_AGENT=default
+TAVILY_API_KEY=your_tavily_key_here  # Optional: for web search
 ```
 
 5. Start the development server:
@@ -103,6 +103,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ```
 src/
+├── config.ts                  # Centralized environment configuration
 ├── app/
 │   ├── api/chat/route.ts      # Streaming chat API endpoint
 │   ├── globals.css            # Theme tokens + Tailwind config
@@ -155,13 +156,13 @@ src/
 
 ## Agents
 
-Agents organize system prompts, available tools, and UI suggestions. One agent is active at a time, selected via the `ACTIVE_AGENT` environment variable.
+Agents organize system prompts, available tools, and UI suggestions. The default agent is configured via `NEXT_PUBLIC_DEFAULT_AGENT_ID`. Enable `NEXT_PUBLIC_AGENT_SELECTOR_ON=true` to allow runtime agent switching.
 
 ### Available Agents
 
 | Agent | Description | Tools |
 |-------|-------------|-------|
-| `default` | Full assistant with interactive content | form, chart, code, card |
+| `default` | Full assistant with interactive content | form, chart, code, card, web search |
 | `portfolio` | Interactive portfolio showcase | renderPortfolio |
 
 ### Agent Architecture
@@ -199,7 +200,7 @@ interface AgentConfig {
 1. Add metadata to `src/lib/ai/agents/agents.shared.ts` (AGENTS array + export)
 2. Create `src/lib/ai/agents/myagent.agent.ts` with full config
 3. Register in `src/lib/ai/agents/index.ts` agents record
-4. Set `ACTIVE_AGENT=myagent` in `.env.local`
+4. Set `NEXT_PUBLIC_DEFAULT_AGENT_ID=myagent` in `.env.local` (or enable agent selector)
 
 ### Portfolio Agent
 
@@ -212,7 +213,11 @@ Portfolio sections: bio, experience, projects, education, skills, contact
 | Variable | Description | Required | Default |
 |----------|-------------|----------|---------|
 | `AI_GATEWAY_API_KEY` | Vercel AI Gateway API key | Yes | - |
-| `ACTIVE_AGENT` | Active agent ID (`default`, `portfolio`) | No | `default` |
+| `TAVILY_API_KEY` | Tavily API key for web search | No | - |
+| `NEXT_PUBLIC_DEFAULT_MODEL_ID` | Default model ID | No | `openai/gpt-5-nano` |
+| `NEXT_PUBLIC_DEFAULT_AGENT_ID` | Default agent ID | No | `default` |
+| `NEXT_PUBLIC_DEBUG_ON` | Enable AI SDK devtools | No | `false` |
+| `NEXT_PUBLIC_AGENT_SELECTOR_ON` | Enable runtime agent switching | No | `false` |
 
 ## Architecture
 
@@ -239,7 +244,7 @@ Content blocks are generated through AI tools:
 3. Tool output flows through streaming response
 4. `ContentBlock` router renders appropriate component
 
-Available tools: `generateForm`, `generateChart`, `generateCode`, `generateCard`, `renderPortfolio`
+Available tools: `generateForm`, `generateChart`, `generateCode`, `generateCard`, `webSearch`, `renderPortfolio`
 
 ## Documentation
 

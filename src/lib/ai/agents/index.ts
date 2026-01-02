@@ -3,6 +3,7 @@ import "server-only";
 import type { AgentConfig } from "./types";
 import { defaultAgent } from "./default.agent";
 import { portfolioAgent } from "./portfolio.agent";
+import { DEFAULT_AGENT_ID } from "@/config";
 
 // Registry of all available agents
 const agents: Record<string, AgentConfig> = {
@@ -10,22 +11,19 @@ const agents: Record<string, AgentConfig> = {
   [portfolioAgent.id]: portfolioAgent,
 };
 
-// Default fallback agent ID
-const DEFAULT_AGENT_ID = "default";
-
 /**
  * Get the currently active agent based on ACTIVE_AGENT env var
  */
 export function getActiveAgent(): AgentConfig {
-  const agentId = process.env.ACTIVE_AGENT || DEFAULT_AGENT_ID;
+  const agentId = DEFAULT_AGENT_ID;
 
   const agent = agents[agentId];
 
   if (!agent) {
     console.warn(
-      `Agent "${agentId}" not found, falling back to "${DEFAULT_AGENT_ID}"`
+      `Agent "${agentId}" not found, falling back to "default"`
     );
-    return agents[DEFAULT_AGENT_ID];
+    return agents["default"];
   }
 
   return agent;

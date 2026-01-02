@@ -10,11 +10,8 @@ import {
 import { useChat as useAIChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import type { UIMessage, ChatStatus } from "ai";
-import { DEFAULT_MODEL_ID } from "@/lib/ai/models";
-import {
-  DEFAULT_AGENT_ID,
-  getAgentMetadataById,
-} from "@/lib/ai/agents.client";
+import { DEFAULT_MODEL_ID, DEFAULT_AGENT_ID } from "@/config";
+import { getAgentMetadataById } from "@/lib/ai/agents.client";
 
 interface ChatContextValue {
   messages: UIMessage[];

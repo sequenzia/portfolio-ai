@@ -3,16 +3,16 @@ import { ChatContainer } from "@/components/chat/ChatContainer";
 import { InputComposer } from "@/components/chat/InputComposer";
 import { Header } from "@/components/Header";
 import { getActiveAgent } from "@/lib/ai/agents";
+import { AGENT_SELECTOR_ON } from "@/config";
 
 export default function Home() {
   const agent = getActiveAgent();
-  const agentSelectorEnabled = process.env.AGENT_SELECTOR_ON === "on";
 
   return (
     <ChatProvider
       suggestions={agent.suggestions}
       initialAgentId={agent.id}
-      agentSelectorEnabled={agentSelectorEnabled}
+      agentSelectorEnabled={AGENT_SELECTOR_ON}
     >
       <div className="flex flex-col h-screen bg-background">
         <Header />

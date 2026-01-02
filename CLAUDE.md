@@ -30,6 +30,7 @@ npm run lint     # Run ESLint
 
 ```
 src/
+├── config.ts                  # Centralized environment config (NEXT_PUBLIC_* vars)
 ├── app/
 │   ├── api/chat/route.ts      # Streaming chat endpoint
 │   ├── globals.css            # OKLch theme tokens + Tailwind v4
@@ -162,7 +163,7 @@ CSS variables in `:root` and `.dark` are referenced in `@theme inline`.
 
 ### Agents
 
-Agents organize system prompts, tools, and suggestions. One agent is active at a time, selected via the `ACTIVE_AGENT` environment variable.
+Agents organize system prompts, tools, and suggestions. The default agent is set via `NEXT_PUBLIC_DEFAULT_AGENT_ID`. When `NEXT_PUBLIC_AGENT_SELECTOR_ON=true`, users can switch agents at runtime via the UI.
 
 **Architecture:**
 - `agents.shared.ts` - Client-safe metadata (id, name, description, greeting, suggestions)
@@ -203,10 +204,10 @@ interface AgentConfig {
 1. Add metadata to `src/lib/ai/agents/agents.shared.ts` (AGENTS array + export)
 2. Create `src/lib/ai/agents/myagent.agent.ts` with full config
 3. Register in `src/lib/ai/agents/index.ts` agents record
-4. Set `ACTIVE_AGENT=myagent` in `.env.local`
+4. Set `NEXT_PUBLIC_DEFAULT_AGENT_ID=myagent` in `.env.local` (or enable agent selector)
 
 **Available agents:**
-- `default` - Full assistant with all tools (form, chart, code, card) and suggestions
+- `default` - Full assistant with all tools (form, chart, code, card, web search) and suggestions
 - `portfolio` - Interactive portfolio agent with renderPortfolio tool
 
 ### Portfolio System
@@ -244,7 +245,14 @@ Required in `.env.local`:
 ```
 AI_GATEWAY_API_KEY=your_key_here
 TAVILY_API_KEY=your_tavily_key_here  # For web search (https://tavily.com)
-ACTIVE_AGENT=default  # Options: default, portfolio
+```
+
+Optional configuration (via `NEXT_PUBLIC_` prefix for client access):
+```
+NEXT_PUBLIC_DEFAULT_MODEL_ID=openai/gpt-5-nano   # Default model (defaults to openai/gpt-5-nano)
+NEXT_PUBLIC_DEFAULT_AGENT_ID=default             # Default agent (defaults to default)
+NEXT_PUBLIC_DEBUG_ON=true                        # Enable AI SDK devtools middleware
+NEXT_PUBLIC_AGENT_SELECTOR_ON=true               # Enable runtime agent switching UI
 ```
 
 ## Documentation & Context

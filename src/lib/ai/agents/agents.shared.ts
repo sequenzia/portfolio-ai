@@ -79,8 +79,6 @@ export const AGENTS: AgentMetadata[] = [
   portfolioAgentMeta,
 ];
 
-export const DEFAULT_AGENT_ID = "default";
-
 export function getAgentMetadataById(id: string): AgentMetadata | undefined {
   return AGENTS.find((agent) => agent.id === id);
 }

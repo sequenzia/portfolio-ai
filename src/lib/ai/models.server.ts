@@ -2,9 +2,8 @@ import "server-only";
 
 import { gateway, wrapLanguageModel, type LanguageModel } from "ai";
 import { devToolsMiddleware } from "@ai-sdk/devtools";
-import { DEFAULT_MODEL_ID, isValidModelId } from "./models";
-
-const isDebugEnabled = process.env.AI_DEBUG === "true";
+import { isValidModelId } from "./models";
+import { DEFAULT_MODEL_ID, DEBUG_ON } from "@/config";
 
 export function createModel(modelId?: string): LanguageModel {
   const selectedModelId = isValidModelId(modelId ?? "")
@@ -13,7 +12,7 @@ export function createModel(modelId?: string): LanguageModel {
 
   const baseModel = gateway(selectedModelId);
 
-  return isDebugEnabled
+  return DEBUG_ON
     ? wrapLanguageModel({ model: baseModel, middleware: devToolsMiddleware() })
     : baseModel;
 }
