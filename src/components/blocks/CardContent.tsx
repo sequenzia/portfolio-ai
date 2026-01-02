@@ -22,29 +22,8 @@ export function CardContent({ data }: CardContentProps) {
     console.log("Card action:", action);
   };
 
-  return (
-    <Card className="overflow-hidden">
-      {data.media && (
-        <div className="relative w-full h-48 flex-shrink-0 overflow-hidden bg-muted">
-          {data.media.type === "image" ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={data.media.url}
-              alt={data.media.alt || data.title}
-              className="w-full h-full object-contain"
-            />
-          ) : (
-            <video
-              src={data.media.url}
-              controls
-              className="w-full h-full object-contain"
-            >
-              <track kind="captions" />
-            </video>
-          )}
-        </div>
-      )}
-
+  const contentSection = (
+    <>
       <CardHeader>
         <CardTitle>{data.title}</CardTitle>
         {data.description && (
@@ -71,6 +50,41 @@ export function CardContent({ data }: CardContentProps) {
           ))}
         </CardFooter>
       )}
-    </Card>
+    </>
   );
+
+  // Horizontal layout when media exists
+  if (data.media) {
+    return (
+      <Card className="overflow-hidden p-0">
+        <div className="flex flex-col md:flex-row">
+          {/* Media - left half on desktop */}
+          <div className="relative w-full h-48 md:w-1/2 md:h-auto md:min-h-[200px] flex-shrink-0 overflow-hidden bg-muted">
+            {data.media.type === "image" ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={data.media.url}
+                alt={data.media.alt || data.title}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <video
+                src={data.media.url}
+                controls
+                className="w-full h-full object-cover"
+              >
+                <track kind="captions" />
+              </video>
+            )}
+          </div>
+
+          {/* Content - right half on desktop */}
+          <div className="flex flex-col justify-center gap-4 md:w-1/2 py-6">{contentSection}</div>
+        </div>
+      </Card>
+    );
+  }
+
+  // Vertical layout when no media
+  return <Card className="overflow-hidden">{contentSection}</Card>;
 }
