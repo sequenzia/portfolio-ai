@@ -44,9 +44,10 @@ import { Button } from '@/components/ui/button';
 interface InputComposerProps {
   hideAgentSelector?: boolean;
   hideSuggestions?: boolean;
+  compact?: boolean;
 }
 
-export function InputComposer({ hideAgentSelector, hideSuggestions }: InputComposerProps = {}) {
+export function InputComposer({ hideAgentSelector, hideSuggestions, compact }: InputComposerProps = {}) {
   const {
     sendMessage,
     status,
@@ -89,7 +90,7 @@ export function InputComposer({ hideAgentSelector, hideSuggestions }: InputCompo
 
   return (
     <div className="bg-gradient-to-t from-background via-background to-transparent p-4 pb-6">
-      <div className="max-w-3xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto">
+      <div className={compact ? "max-w-2xl lg:max-w-3xl mx-auto" : "max-w-3xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto"}>
         {/* Gradient border wrapper */}
         <div className="relative rounded-2xl p-[1px] bg-gradient-to-r from-gradient-from via-accent to-gradient-to shadow-lg shadow-accent/10">
           <div className="rounded-2xl bg-card/95 backdrop-blur-sm">

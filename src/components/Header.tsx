@@ -41,8 +41,8 @@ export function Header() {
     <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-14 items-center justify-between px-4 max-w-3xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto">
         <div className="flex items-center gap-2">
-          <Sparkles size={24} />
-          <h1 className="font-semibold text-lg bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
+          <Sparkles size={28} />
+          <h1 className="font-semibold text-xl bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
             Sequenzia AI
           </h1>
         </div>
