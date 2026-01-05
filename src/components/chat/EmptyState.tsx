@@ -71,7 +71,7 @@ export function EmptyState() {
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* Scrollable content area */}
       <div className="flex-1 flex flex-col items-center justify-start pt-[20vh] md:pt-[22vh] p-6 overflow-y-auto">
-        <div className="w-full max-w-3xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl space-y-6">
+        <div className="w-full max-w-3xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl">
           {/* Empty state content */}
           <div className="flex flex-col items-center gap-4 text-center welcome-landscape-hide">
             {/* Hero icon with container */}
@@ -98,50 +98,85 @@ export function EmptyState() {
               </p>
             </motion.div>
 
-            {/* Suggestion grid */}
-            {suggestions && suggestions.length > 0 && (
-              <motion.nav
-                variants={prefersReducedMotion ? undefined : staggerContainer}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-2xl mt-4"
-                aria-label="Quick start suggestions"
-              >
-                {suggestions.map((s, index) => {
-                  const Icon = getSuggestionIcon(s.label);
-                  return (
-                    <motion.button
-                      key={s.label}
-                      variants={prefersReducedMotion ? undefined : staggerItem}
-                      onClick={() => sendMessage(s.prompt ?? s.label)}
-                      className={cn(
-                        'group p-3 min-h-[44px] bg-card border border-border rounded-xl',
-                        'hover:border-accent/50 hover:bg-accent/5 hover:shadow-sm',
-                        'transition-all duration-200 text-left',
-                        'flex items-center gap-3 justify-center'
-                      )}
-                    >
-                      <Icon className="size-4 text-accent flex-shrink-0" />
-                      <span className="text-xs font-medium text-foreground truncate">
-                        {s.label}
-                      </span>
-                    </motion.button>
-                  );
-                })}
-              </motion.nav>
-            )}
           </div>
 
           {/* Input composer - visible on md+ screens, centered with content */}
-          <div className="hidden md:block mt-4">
+          <div className="hidden md:block mt-6">
             <InputComposer hideSuggestions compact />
           </div>
+
+          {/* Suggestion grid - below input (desktop only) */}
+          {suggestions && suggestions.length > 0 && (
+            <motion.nav
+              key={`suggestions-desktop-${agentId}`}
+              variants={prefersReducedMotion ? undefined : staggerContainer}
+              initial="hidden"
+              animate="visible"
+              className="hidden md:grid grid-cols-2 md:grid-cols-4 gap-3 w-full max-w-2xl mx-auto -mt-4"
+              aria-label="Quick start suggestions"
+            >
+              {suggestions.map((s, index) => {
+                const Icon = getSuggestionIcon(s.label);
+                return (
+                  <motion.button
+                    key={s.label}
+                    variants={prefersReducedMotion ? undefined : staggerItem}
+                    onClick={() => sendMessage(s.prompt ?? s.label)}
+                    className={cn(
+                      'group p-3 min-h-[44px] bg-card border border-border rounded-xl',
+                      'hover:border-accent/50 hover:bg-accent/5 hover:shadow-sm',
+                      'transition-all duration-200 text-left',
+                      'flex items-center gap-3 justify-center'
+                    )}
+                  >
+                    <Icon className="size-4 text-accent flex-shrink-0" />
+                    <span className="text-xs font-medium text-foreground truncate">
+                      {s.label}
+                    </span>
+                  </motion.button>
+                );
+              })}
+            </motion.nav>
+          )}
         </div>
       </div>
 
-      {/* Input composer - fixed at bottom on mobile only */}
+      {/* Input composer and suggestions - fixed at bottom on mobile only */}
       <div className="md:hidden">
         <InputComposer hideSuggestions compact />
+        {/* Mobile suggestion grid */}
+        {suggestions && suggestions.length > 0 && (
+          <motion.nav
+            key={`suggestions-mobile-${agentId}`}
+            variants={prefersReducedMotion ? undefined : staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-2 gap-3 px-4 -mt-4 pb-4 pb-[calc(1rem+var(--safe-area-inset-bottom))]"
+            aria-label="Quick start suggestions"
+          >
+            {suggestions.map((s, index) => {
+              const Icon = getSuggestionIcon(s.label);
+              return (
+                <motion.button
+                  key={s.label}
+                  variants={prefersReducedMotion ? undefined : staggerItem}
+                  onClick={() => sendMessage(s.prompt ?? s.label)}
+                  className={cn(
+                    'group p-3 min-h-[44px] bg-card border border-border rounded-xl',
+                    'hover:border-accent/50 hover:bg-accent/5 hover:shadow-sm',
+                    'transition-all duration-200 text-left',
+                    'flex items-center gap-3 justify-center'
+                  )}
+                >
+                  <Icon className="size-4 text-accent flex-shrink-0" />
+                  <span className="text-xs font-medium text-foreground truncate">
+                    {s.label}
+                  </span>
+                </motion.button>
+              );
+            })}
+          </motion.nav>
+        )}
       </div>
     </div>
   );
