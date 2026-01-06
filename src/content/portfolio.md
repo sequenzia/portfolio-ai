@@ -7,7 +7,7 @@ Both the frontend and backend read from this file.
 
 ## Bio
 
-name: Alex Johnson
+name: Alex Johnson III
 title: Senior Full-Stack Engineer
 location: San Francisco, CA
 photoUrl: /images/profile.jpg
