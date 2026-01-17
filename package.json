@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prebuild": "tsx scripts/generate-portfolio-data.ts",
+    "predev": "tsx scripts/generate-portfolio-data.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -61,6 +63,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
