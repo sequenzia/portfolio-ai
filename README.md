@@ -1,255 +1,285 @@
 # Sequenzia AI
 
-A streaming AI chat application with inline interactive content blocks. The AI can generate forms, charts, code snippets, and cards that render directly within assistant messages.
+A streaming AI chat application that transforms your portfolio into an interactive conversation. Visitors explore your professional background, experience, projects, and skills through natural dialogue with rich inline content blocks.
 
-## Overview
+## Features
 
-Sequenzia AI implements the **Inline Content Paradigm** - a design philosophy that treats conversation and interactivity as a unified experience. Rather than relegating AI-generated artifacts to separate panels or modals, interactive elements render directly within the message flow, preserving conversational context.
-
-### Key Features
-
-- **Streaming Chat** - Real-time AI responses with token-by-token streaming
-- **Multi-Model Support** - Switch between OpenAI, Google, and DeepSeek models
-- **Agent System** - Configurable agents with custom prompts, tools, and suggestions
-- **Interactive Blocks** - AI-generated forms, charts, code, cards, and portfolio content inline in messages
-- **Portfolio Mode** - Interactive portfolio agent for showcasing professional experience
-- **Quick Suggestions** - Agent-defined suggestion buttons for common actions
-- **Reasoning Display** - Collapsible thinking/reasoning sections for supported models
-- **Dark/Light Themes** - System-aware theming with manual toggle
-- **Markdown Rendering** - Full markdown support with syntax highlighting
-- **Responsive Design** - Works on desktop and mobile
-
-## Content Blocks
-
-The AI can generate five types of interactive content:
-
-| Block | Description | Use Cases |
-|-------|-------------|-----------|
-| **Form** | Interactive forms with 10 field types | Surveys, registrations, feedback collection |
-| **Chart** | Data visualizations (line, bar, pie, area) | Reports, analytics, comparisons |
-| **Code** | Syntax-highlighted code with copy button | Examples, configurations, snippets |
-| **Card** | Rich content with media and actions | Products, articles, notifications |
-| **Portfolio** | Professional portfolio sections | Bio, experience, projects, skills, education, contact |
-
-See [docs/blocks.md](docs/blocks.md) for detailed documentation.
+- **Conversational Portfolio** - Visitors chat with an AI assistant to explore your work
+- **Streaming Responses** - Real-time streaming with reasoning display
+- **Rich Content Blocks** - Interactive portfolio sections, charts, code snippets, forms, and cards
+- **Multi-Provider LLM Support** - OpenAI, Google, DeepSeek via AI Gateway
+- **Dark Mode** - System, light, and dark themes with OKLch color system
+- **Responsive Design** - Mobile-optimized with smooth animations
+- **Type-Safe** - Full TypeScript with Zod validation
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Framework | Next.js 16.1 + React 19.2 |
+| Category | Technology |
+|----------|------------|
+| Framework | Next.js 16.1 + React 19.2 + TypeScript |
 | AI | Vercel AI SDK v6 + AI Gateway |
-| UI | Custom AI Elements + shadcn/ui |
-| Styling | Tailwind CSS v4 (OKLch colors) |
-| Animation | Framer Motion / Motion |
+| UI | shadcn/ui (New York) + Custom AI Elements |
+| Styling | Tailwind CSS v4 + OKLch Colors |
+| Animation | Framer Motion |
 | Validation | Zod v4 |
-| Markdown | Streamdown |
-| Charts | Recharts |
-| Syntax Highlighting | Shiki |
+| State | React Context + TanStack Query |
+| Markdown | Streamdown (streaming renderer) |
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js 18+
-- npm, pnpm, or yarn
+- npm, yarn, or pnpm
 
 ### Installation
 
-1. Clone the repository:
-
 ```bash
-git clone https://github.com/sequenzia/sequenzia-ai.git
-cd sequenzia-ai
-```
+# Clone the repository
+git clone https://github.com/yourusername/portfolio-ai.git
+cd portfolio-ai
 
-2. Install dependencies:
-
-```bash
+# Install dependencies
 npm install
 ```
 
-3. Create environment file:
+### Configuration
+
+Create a `.env.local` file in the root directory:
+
+```env
+# Required
+AI_GATEWAY_API_KEY=your_ai_gateway_key
+TAVILY_API_KEY=your_tavily_key  # For web search (https://tavily.com)
+
+# Optional
+NEXT_PUBLIC_DEFAULT_MODEL_ID=openai/gpt-5-nano  # Default: openai/gpt-5-nano
+NEXT_PUBLIC_DEBUG_ON=true                        # Enable AI SDK devtools
+```
+
+### Development
 
 ```bash
-cp .env.example .env.local
+npm run dev      # Start development server (http://localhost:3000)
+npm run build    # Production build
+npm run start    # Start production server
+npm run lint     # Run ESLint
 ```
-
-4. Add your API key to `.env.local`:
-
-```
-AI_GATEWAY_API_KEY=your_key_here
-TAVILY_API_KEY=your_tavily_key_here  # Optional: for web search
-```
-
-5. Start the development server:
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## Available Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Create production build |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
 
 ## Project Structure
 
 ```
 src/
-├── config.ts                  # Centralized environment configuration
 ├── app/
-│   ├── api/chat/route.ts      # Streaming chat API endpoint
-│   ├── globals.css            # Theme tokens + Tailwind config
+│   ├── api/chat/route.ts      # Streaming chat endpoint
+│   ├── globals.css            # Theme tokens + Tailwind
 │   ├── layout.tsx             # Root layout with providers
 │   └── page.tsx               # Main chat page
 ├── components/
-│   ├── ai-elements/           # Custom AI UI components
-│   │   ├── agent-selector.tsx # Agent picker dialog
-│   │   ├── conversation.tsx   # Conversation container
-│   │   ├── message.tsx        # Message + attachments + branching
-│   │   ├── model-selector.tsx # Model picker dialog
-│   │   ├── suggestion.tsx     # Quick action suggestions
-│   │   ├── prompt-input.tsx   # Message input field
-│   │   ├── reasoning.tsx      # Collapsible reasoning display
-│   │   └── ...
+│   ├── ai-elements/           # AI-specific UI (message, input, reasoning)
 │   ├── blocks/                # Content block renderers
-│   │   ├── ContentBlock.tsx   # Block type router
-│   │   ├── FormContent.tsx    # Dynamic forms
-│   │   ├── ChartContent.tsx   # Recharts visualizations
-│   │   ├── CodeContent.tsx    # Shiki syntax highlighting
-│   │   ├── CardContent.tsx    # Rich cards with actions
-│   │   ├── PortfolioBlock.tsx # Portfolio section renderer
-│   │   └── portfolio/         # Portfolio sub-components
-│   ├── chat/                  # Chat components
-│   │   ├── ChatProvider.tsx   # useChat wrapper + model state
-│   │   ├── ChatContainer.tsx  # Message list with auto-scroll
-│   │   ├── ChatMessage.tsx    # Parts-based message rendering
-│   │   └── InputComposer.tsx  # Input + model selector + suggestions
+│   │   ├── portfolio/         # Portfolio section components
+│   │   ├── ContentBlock.tsx   # Block router
+│   │   ├── ChartContent.tsx   # Chart visualizations
+│   │   ├── CodeContent.tsx    # Syntax highlighting
+│   │   └── FormContent.tsx    # Dynamic forms
+│   ├── chat/                  # Chat management
 │   ├── providers/             # React context providers
 │   └── ui/                    # shadcn/ui components
 ├── lib/
-│   ├── ai/
-│   │   ├── agents/            # Agent configurations
-│   │   │   ├── agents.shared.ts  # Shared metadata (client-safe)
-│   │   │   ├── index.ts          # Registry + getActiveAgent()
-│   │   │   ├── types.ts          # AgentConfig interface
-│   │   │   ├── default.agent.ts
-│   │   │   └── portfolio.agent.ts
-│   │   ├── agents.client.ts   # Client-safe agent re-exports
-│   │   ├── models.ts          # Client-safe model definitions
-│   │   ├── models.server.ts   # Server-only AI Gateway factory
-│   │   └── tools.ts           # Tool definitions (form, chart, code, card, portfolio)
-│   ├── motion/                # Animation variants + hooks
-│   └── portfolio/             # Portfolio data system
-│       ├── data.ts            # Portfolio content data
-│       └── types.ts           # Portfolio TypeScript interfaces
-└── types/
-    └── message.ts             # ContentBlock types + Zod schemas
+│   ├── ai/                    # AI configuration + tools
+│   ├── motion/                # Animation variants
+│   └── portfolio/             # Portfolio data + config
+└── types/                     # TypeScript definitions
 ```
 
-## Agents
+## How It Works
 
-Agents organize system prompts, available tools, and UI suggestions. The default agent is configured via `NEXT_PUBLIC_DEFAULT_AGENT_ID`. Enable `NEXT_PUBLIC_AGENT_SELECTOR_ON=true` to allow runtime agent switching.
+### Architecture
 
-### Available Agents
+```
+User Message
+    ↓
+ChatProvider (manages conversation state)
+    ↓
+POST /api/chat { messages, modelId }
+    ↓
+streamText({
+  model: AI Gateway model,
+  system: Portfolio instructions + metadata,
+  tools: { renderPortfolio },
+})
+    ↓
+Streaming response (text, reasoning, tool calls)
+    ↓
+Parts-based rendering:
+  • text → Streamdown markdown
+  • reasoning → Collapsible display
+  • tool-* → Content blocks with animations
+```
 
-| Agent | Description | Tools |
-|-------|-------------|-------|
-| `default` | Full assistant with interactive content | form, chart, code, card, web search |
-| `portfolio` | Interactive portfolio showcase | renderPortfolio |
+### Portfolio Tool
 
-### Agent Architecture
-
-Agents are split between client-safe metadata and server-only configuration:
-
-- **`agents.shared.ts`** - Client-safe metadata (id, name, description, greeting, suggestions)
-- **`agents.client.ts`** - Re-exports shared metadata for client components
-- **`*.agent.ts`** - Server-only full config with instructions and tools
+The AI has access to a `renderPortfolio` tool that displays portfolio sections:
 
 ```typescript
-// Client-safe metadata (can be imported anywhere)
-interface AgentMetadata {
-  id: string;
-  name: string;
-  description?: string;
-  greeting?: string;    // Welcome message for empty state
-  suggestions?: Array<{ label: string; prompt?: string }>;
+renderPortfolio({
+  viewType: "bio" | "experience" | "projects" | "education" | "skills" | "contact",
+  filter?: string,      // Filter content (e.g., "ai", "react")
+  highlightId?: string, // Focus on specific item
+})
+```
+
+### Metadata-First System Prompt
+
+The system prompt uses a metadata-first approach that provides the AI with a summary of your portfolio content, reducing token usage by ~40-50% while enabling intelligent tool decisions.
+
+## Customization
+
+### Update Portfolio Content
+
+Edit `src/lib/portfolio/data.ts` with your information:
+
+```typescript
+export const portfolioContent: PortfolioContent = {
+  bio: {
+    name: "Your Name",
+    title: "Your Title",
+    location: "Your Location",
+    summary: "Your professional summary...",
+    // ...
+  },
+  experience: [...],
+  projects: [...],
+  education: [...],
+  skills: [...],
+  contact: {...},
+};
+```
+
+### Configure Greeting & Suggestions
+
+Edit `src/lib/portfolio/config.ts`:
+
+```typescript
+export const PORTFOLIO_GREETING = "Your custom greeting message";
+
+export const PORTFOLIO_SUGGESTIONS = [
+  { label: "Bio", prompt: "Show me your bio" },
+  { label: "Work", prompt: "Tell me about your experience" },
+  // Add or modify suggestions
+];
+```
+
+### Theme Colors
+
+Modify OKLch color tokens in `src/app/globals.css`:
+
+```css
+:root {
+  --background: oklch(100% 0 0);
+  --foreground: oklch(14.08% 0.004 285.82);
+  --primary: oklch(20.55% 0.006 285.88);
+  /* ... */
 }
 
-// Server-only config (includes system prompt and tools)
-interface AgentConfig {
-  id: string;
-  name: string;
-  instructions: string; // System prompt
-  tools: ToolSet;
-  maxSteps?: number;
-  description?: string;
-  suggestions?: Array<{ label: string; prompt?: string }>;
+.dark {
+  --background: oklch(13.5% 0.02 265);
+  /* ... */
 }
 ```
 
-### Creating a New Agent
+## Adding Content Blocks
 
-1. Add metadata to `src/lib/ai/agents/agents.shared.ts` (AGENTS array + export)
-2. Create `src/lib/ai/agents/myagent.agent.ts` with full config
-3. Register in `src/lib/ai/agents/index.ts` agents record
-4. Set `NEXT_PUBLIC_DEFAULT_AGENT_ID=myagent` in `.env.local` (or enable agent selector)
+The content block system is extensible. To add a new block type:
 
-### Portfolio Agent
-
-The portfolio agent showcases professional experience through an interactive chat interface. Portfolio data is defined in `src/lib/portfolio/data.ts` and the system prompt is auto-generated from this data.
-
-Portfolio sections: bio, experience, projects, education, skills, contact
-
-## Environment Variables
-
-| Variable | Description | Required | Default |
-|----------|-------------|----------|---------|
-| `AI_GATEWAY_API_KEY` | Vercel AI Gateway API key | Yes | - |
-| `TAVILY_API_KEY` | Tavily API key for web search | No | - |
-| `NEXT_PUBLIC_DEFAULT_MODEL_ID` | Default model ID | No | `openai/gpt-5-nano` |
-| `NEXT_PUBLIC_DEFAULT_AGENT_ID` | Default agent ID | No | `default` |
-| `NEXT_PUBLIC_DEBUG_ON` | Enable AI SDK devtools | No | `false` |
-| `NEXT_PUBLIC_AGENT_SELECTOR_ON` | Enable runtime agent switching | No | `false` |
-
-## Architecture
-
-### Message Flow
-
-```
-User Input → API Route → Agent Config → AI Model → Streaming Response → Message Parts → UI
+1. **Define the schema** in `src/types/message.ts`:
+```typescript
+export const myBlockSchema = z.object({
+  type: z.literal("my-block"),
+  data: z.object({ /* your fields */ }),
+});
 ```
 
-### Parts-Based Rendering
+2. **Create the tool** in `src/lib/ai/tools.ts`:
+```typescript
+export const myBlockTool = tool({
+  description: "Renders my custom block",
+  parameters: myBlockSchema.shape.data,
+  execute: async (params) => ({ type: "my-block", data: params }),
+});
+```
 
-Messages contain parts that render differently:
+3. **Create the renderer** in `src/components/blocks/MyBlockContent.tsx`
 
-- `text` → Markdown content via Streamdown
-- `reasoning` → Collapsible thinking section
-- `tool-*` → Content blocks when output available
+4. **Add to router** in `src/components/blocks/ContentBlock.tsx`:
+```typescript
+case "my-block":
+  return <MyBlockContent data={block.data} />;
+```
 
-### Tool System
+5. **Register the tool** in `src/app/api/chat/route.ts`
 
-Content blocks are generated through AI tools:
+## Available Models
 
-1. AI calls a tool (e.g., `generateChart`, `renderPortfolio`)
-2. Tool input is validated against Zod schema
-3. Tool output flows through streaming response
-4. `ContentBlock` router renders appropriate component
+The application supports multiple LLM providers via AI Gateway:
 
-Available tools: `generateForm`, `generateChart`, `generateCode`, `generateCard`, `webSearch`, `renderPortfolio`
+| Provider | Models |
+|----------|--------|
+| OpenAI | GPT-5 Nano, GPT-5 Mini, GPT-4o Mini, GPT-OSS 120B |
+| Google | Gemini 2.0 Flash |
+| DeepSeek | DeepSeek V3.2 |
 
-## Documentation
+Configure the default model with `NEXT_PUBLIC_DEFAULT_MODEL_ID`.
 
-- [Content Blocks](docs/blocks.md) - Detailed block type documentation
-- [Technical Spec](docs/SPEC.md) - Full technical specification
+## Portfolio Data Structure
+
+```typescript
+interface PortfolioContent {
+  bio: {
+    name: string;
+    title: string;
+    location: string;
+    summary: string;
+    highlights: string[];
+    social: { platform: string; url: string; }[];
+  };
+  experience: {
+    id: string;
+    company: string;
+    role: string;
+    period: string;
+    achievements: string[];
+    technologies: string[];
+  }[];
+  projects: {
+    id: string;
+    name: string;
+    description: string;
+    category: string;
+    technologies: string[];
+    featured?: boolean;
+    links?: { label: string; url: string; }[];
+  }[];
+  education: {
+    id: string;
+    institution: string;
+    degree: string;
+    field: string;
+    period: string;
+    honors?: string;
+  }[];
+  skills: {
+    category: string;
+    items: { name: string; proficiency: "expert" | "advanced" | "intermediate"; }[];
+  }[];
+  contact: {
+    email: string;
+    calendly?: string;
+    social: { platform: string; url: string; }[];
+  };
+}
+```
 
 ## License
 
