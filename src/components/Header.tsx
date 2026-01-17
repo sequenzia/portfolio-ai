@@ -19,9 +19,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Sun, Moon, Monitor, SquarePen } from "lucide-react";
+import { Sun, Moon, Monitor } from "lucide-react";
 import { useChat } from "./chat/ChatProvider";
 import { Sparkles } from "./ai-elements/sparkles";
+import { cn } from "@/lib/utils";
 import type { Theme } from "@/types";
 
 export function Header() {
@@ -38,49 +39,41 @@ export function Header() {
   const CurrentIcon = theme === "light" ? Sun : theme === "dark" ? Moon : Monitor;
 
   return (
-    <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className={cn(
+      "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
+      hasMessages && "border-b border-border/50"
+    )}>
       <div className="flex h-14 items-center justify-between px-4 max-w-3xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto">
         {hasMessages ? (
-          <div className="flex items-center gap-2">
-            <Sparkles size={36} />
-            <h1 className="font-semibold text-2xl bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
-              Sequenzia AI
-            </h1>
-          </div>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <button className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <Sparkles size={36} />
+                <span className="font-semibold text-2xl bg-gradient-to-r from-gradient-from to-gradient-to bg-clip-text text-transparent">
+                  Sequenzia AI
+                </span>
+              </button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Start new chat?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This will clear the current conversation. This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={clearMessages}>
+                  New chat
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         ) : (
           <div />
         )}
 
         <div className="flex items-center gap-1">
-          {hasMessages && (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="hover:bg-accent/20 hover:text-accent"
-                >
-                  <SquarePen className="size-5" />
-                  <span className="sr-only">New chat</span>
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Start new chat?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This will clear the current conversation. This action cannot be undone.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={clearMessages}>
-                    New chat
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          )}
-
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="hover:bg-accent/20 hover:text-accent">
